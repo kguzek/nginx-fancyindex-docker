@@ -1,0 +1,30 @@
+name: CD
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy-to-registry:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Login to container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ vars.REGISTRY_HOSTNAME }}
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+
+      - name: Checkout repository code
+        uses: actions/checkout@v6
+
+      - name: Run deploy script
+        run: |
+          TAG="${{ vars.REGISTRY_HOSTNAME }}/nginx/nginx-fancyindex:latest"
+          docker build -t "$TAG" .
+          docker push "$TAG"
