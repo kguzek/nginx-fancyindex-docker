@@ -1,0 +1,7 @@
+services:
+  nginx-fancyindex:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
