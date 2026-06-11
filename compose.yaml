@@ -1,6 +1,7 @@
 services:
   nginx-fancyindex:
-    build: .
+    image: registry.guzek.uk/nginx/nginx-fancyindex:latest
+    container_name: nginx-fancyindex
     ports:
       - "8080:80"
     volumes:
