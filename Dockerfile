@@ -61,7 +61,7 @@ FROM alpine:3.20
 RUN apk add --no-cache pcre2 zlib \
     && addgroup -S nginx \
     && adduser -S -D -H -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
-    && mkdir -p /usr/share/nginx/html /var/cache/nginx \
+    && mkdir -p /etc/nginx/conf.d /etc/nginx/server.d /etc/nginx/location.d /usr/share/nginx/html /var/cache/nginx \
     && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
 
 COPY --from=build /usr/sbin/nginx /usr/sbin/nginx
