@@ -22,8 +22,6 @@ jobs:
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@v4.1.2
-        with:
-          cosign-release: "v2.6.3"
 
       - name: Extract image metadata
         id: meta
@@ -51,5 +49,5 @@ jobs:
       - name: Sign the image
         if: github.event_name != 'pull_request'
         run: |
-          cosign sign --yes \
+          cosign sign --yes --new-bundle-format=false --use-signing-config=false \
             ${{ vars.REGISTRY_HOSTNAME }}/${{ vars.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
