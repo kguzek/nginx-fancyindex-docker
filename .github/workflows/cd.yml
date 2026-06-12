@@ -50,6 +50,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Sign the image
+        if: github.event_name != 'pull_request'
         run: |
           cosign sign --yes \
             ${{ vars.REGISTRY_HOSTNAME }}/${{ vars.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
