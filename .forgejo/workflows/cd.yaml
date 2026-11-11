@@ -12,6 +12,8 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+enable-openid-connect: true
+
 jobs:
   push-to-registry:
     runs-on: ubuntu-latest
@@ -26,13 +28,26 @@ jobs:
         with:
           images: "${{ vars.REGISTRY_HOSTNAME }}/${{ vars.IMAGE_NAME }}"
 
+      - name: Create Forgejo JWT
+        id: jwt
+        if: github.event_name != 'pull_request'
+        run: |
+          jwt=$( \
+            curl --fail \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=${{ vars.OIDC_AUDIENCE }}" \
+            | jq -r ".value" \
+          )
+          echo "::add-mask::$jwt"
+          echo "jwt=$jwt" >> $FORGEJO_OUTPUT
+
       - name: Login to container registry
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v4
         with:
           registry: ${{ vars.REGISTRY_HOSTNAME }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          username: ${{ github.actor }}
+          password: ${{ steps.jwt.outputs.jwt }}
 
       - name: Build and push
         id: build
