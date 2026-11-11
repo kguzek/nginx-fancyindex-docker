@@ -1,6 +1,6 @@
 services:
   nginx-fancyindex:
-    image: registry.guzek.uk/nginx/nginx-fancyindex:latest
+    image: git.guzek.uk/kguzek/nginx-fancyindex:latest
     container_name: nginx-fancyindex
     ports:
       - "8080:80"

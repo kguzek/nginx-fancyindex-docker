@@ -4,12 +4,12 @@ Minimal Docker image that builds nginx from source with [`ngx-fancyindex`](https
 
 ## Usage
 
-The image is available at [registry.guzek.uk/nginx/nginx-fancyindex](https://registry.guzek.uk/harbor/projects/3/repositories/nginx-fancyindex/artifacts-tab) and can be pulled without cloning this repository.
+The image is available at [git.guzek.uk/kguzek/nginx-fancyindex](https://git.guzek.uk/kguzek/-/packages/container/nginx-fancyindex) and can be pulled without cloning this repository.
 
 ### Run directly
 
 ```sh
-docker run --rm -p 8080:80 registry.guzek.uk/nginx/nginx-fancyindex
+docker run --rm -p 8080:80 git.guzek.uk/kguzek/nginx-fancyindex
 ```
 
 To serve your own directory:
@@ -17,7 +17,7 @@ To serve your own directory:
 ```sh
 docker run --rm -p 8080:80 \
   -v "$PWD/html:/usr/share/nginx/html:ro" \
-  registry.guzek.uk/nginx/nginx-fancyindex
+  git.guzek.uk/kguzek/nginx-fancyindex
 ```
 
 To customize nginx directives without rebuilding the image, bind-mount `.conf` snippets into one of the included configuration directories:
@@ -39,7 +39,7 @@ Then run:
 docker run --rm -p 8080:80 \
   -v "$PWD/html:/usr/share/nginx/html:ro" \
   -v "$PWD/location.conf:/etc/nginx/location.d/custom.conf:ro" \
-  registry.guzek.uk/nginx/nginx-fancyindex
+  git.guzek.uk/kguzek/nginx-fancyindex
 ```
 
 You can still replace the whole nginx configuration if needed:
@@ -47,13 +47,13 @@ You can still replace the whole nginx configuration if needed:
 ```sh
 docker run --rm -p 8080:80 \
   -v "$PWD/nginx.conf:/etc/nginx/nginx.conf:ro" \
-  registry.guzek.uk/nginx/nginx-fancyindex
+  git.guzek.uk/kguzek/nginx-fancyindex
 ```
 
 ### Run with Docker Compose
 
 ```sh
-wget https://raw.githubusercontent.com/kguzek/nginx-fancyindex-docker/main/compose.yaml
+wget https://git.guzek.uk/kguzek/nginx-fancyindex-docker/raw/branch/main/compose.yaml
 vi compose.yaml # modify the compose file to your liking
 docker compose up -d
 ```
@@ -63,7 +63,7 @@ Example compose file with content and nginx directive snippets mounted:
 ```yaml
 services:
   nginx-fancyindex:
-    image: registry.guzek.uk/nginx/nginx-fancyindex:latest
+    image: git.guzek.uk/kguzek/nginx-fancyindex:latest
     ports:
       - "8080:80"
     volumes:
@@ -76,7 +76,7 @@ services:
 Clone this repository and enter the `nginx-fancyindex-docker` directory.
 
 ```sh
-git clone https://github.com/kguzek/nginx-fancyindex-docker
+git clone https://git.guzek.uk/kguzek/nginx-fancyindex-docker
 cd nginx-fancyindex-docker
 ```
 
@@ -131,7 +131,7 @@ Snippet mounts are loaded from:
 Replace the `image` field in [compose.yaml](compose.yaml#L3) with `build`:
 
 ```diff
--    image: registry.guzek.uk/nginx/nginx-fancyindex:latest
+-    image: git.guzek.uk/kguzek/nginx-fancyindex:latest
 +    build: .
 ```
 
