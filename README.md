@@ -90,7 +90,7 @@ Optional build arguments:
 
 ```sh
 docker build \
-  --build-arg NGINX_VERSION=1.26.3 \
+  --build-arg NGINX_VERSION=1.30.7 \
   --build-arg FANCYINDEX_REF=master \
   -t nginx-fancyindex .
 ```

@@ -1,7 +1,7 @@
-ARG NGINX_VERSION=1.26.3
+ARG NGINX_VERSION=1.30.7
 ARG FANCYINDEX_REF=master
 
-FROM alpine:3.20 AS build
+FROM alpine:3.24 AS build
 
 ARG NGINX_VERSION
 ARG FANCYINDEX_REF
@@ -56,7 +56,7 @@ RUN ./configure \
     && make install \
     && strip /usr/sbin/nginx
 
-FROM alpine:3.20
+FROM alpine:3.24
 
 RUN apk add --no-cache pcre2 zlib \
     && addgroup -S nginx \
